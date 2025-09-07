@@ -65,6 +65,25 @@ class AbrigoAnimais {
 
     return listaAnimais;
   }
+
+  processarAdocoes(listaAnimais, animais, brinquedos1, brinquedos2) {
+    const resultado = [];
+    const contadorPessoa1 = { count: 0 };
+    const contadorPessoa2 = { count: 0 };
+    const animaisAdotados = [];
+
+    for (const nomeAnimal of listaAnimais) {
+      const animal = animais[nomeAnimal];
+      const destino = this.determinarDestino(nomeAnimal, animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados);
+      resultado.push(`${nomeAnimal} - ${destino}`);
+    }
+
+    // Ordeno em ordem alfabética
+    resultado.sort();
+    return resultado;
+  }
+
+  determinarDestino(){}
 }
 
 export { AbrigoAnimais as AbrigoAnimais };
