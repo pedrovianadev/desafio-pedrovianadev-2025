@@ -97,21 +97,17 @@ class AbrigoAnimais {
     // Regra se ambas pessoas podem adotar, ninguém fica com o animal :(
     if (pessoa1Pode && pessoa2Pode) {
       return 'abrigo';
-    }
-
-    if (pessoa1Pode) {
+    } else if (pessoa1Pode) {
       contadorPessoa1.count++;
       animaisAdotados.push(nomeAnimal);
       return 'pessoa 1';
-    }
-
-    if (pessoa2Pode) {
+    } else if (pessoa2Pode) {
       contadorPessoa2.count++;
       animaisAdotados.push(nomeAnimal);
       return 'pessoa 2';
+    } else {
+      return 'abrigo';
     }
-
-    return 'abrigo';
   }
 
   processarLoco(animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados){
@@ -130,19 +126,15 @@ class AbrigoAnimais {
 
     if (pessoa1Pode && pessoa2Pode) {
       return 'abrigo';
-    }
-
-    if (pessoa1Pode) {
+    } else if (pessoa1Pode) {
       contadorPessoa1.count++;
       return 'pessoa 1';
-    }
-
-    if (pessoa2Pode) {
+    }else if (pessoa2Pode) {
       contadorPessoa2.count++;
       return 'pessoa 2';
+    } else {
+      return 'abrigo';
     }
-
-    return 'abrigo';
   }
 
   pessoaPodeAdotar(animal, brinquedosPessoa, animaisJaAdotados){
