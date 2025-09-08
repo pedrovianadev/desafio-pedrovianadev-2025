@@ -27,7 +27,6 @@ class AbrigoAnimais {
     } catch (error) {
       return { erro: error.message };
     }
-
   }
 
   validarEParsearBrinquedos(brinquedosString, brinquedosValidos) {
@@ -76,7 +75,8 @@ class AbrigoAnimais {
 
     for (const nomeAnimal of listaAnimais) {
       const animal = animais[nomeAnimal];
-      const destino = this.determinarDestino(nomeAnimal, animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados);
+      const destino = this.determinarDestino(nomeAnimal, animal, brinquedos1, brinquedos2, 
+                                           contadorPessoa1, contadorPessoa2, animaisAdotados);
       resultado.push(`${nomeAnimal} - ${destino}`);
     }
 
@@ -87,13 +87,12 @@ class AbrigoAnimais {
 
   determinarDestino(nomeAnimal, animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados){
     // Regra para Loco(jabuti)
-    if (nomeAnimal === 'Loco'){
+    if (nomeAnimal === 'Loco') {
       return this.processarLoco(animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados);
     }
 
-    // ainda vou implementar o método pessoaPodeAdotar
-    const pessoa1Pode = this.pessoaPodeAdotar();
-    const pessoa2Pode = this.pessoaPodeAdotar();
+    const pessoa1Pode = this.pessoaPodeAdotar(animal, brinquedos1, contadorPessoa1.count);
+    const pessoa2Pode = this.pessoaPodeAdotar(animal, brinquedos2, contadorPessoa2.count);
 
     // Regra se ambas pessoas podem adotar, ninguém fica com o animal :(
     if (pessoa1Pode && pessoa2Pode) {
@@ -129,7 +128,7 @@ class AbrigoAnimais {
     const pessoa1Pode = pessoa1TemBrinquedos && contadorPessoa1.count < 3;
     const pessoa2Pode = pessoa2TemBrinquedos && contadorPessoa2.count < 3;
 
-    if (pessoa1Pode && pessoa2Pode){
+    if (pessoa1Pode && pessoa2Pode) {
       return 'abrigo';
     }
 
@@ -154,7 +153,7 @@ class AbrigoAnimais {
 
     // Regra o animal vai para a pessoa que mostrar todos os seus brinquedos favoritos na ordem
     // Regra uma pessoa pode intercalar brinquedos que o animal queira ou não, desde que esteja na ordem desejada
-    return this.temBrinquedosNaOrdem(animal.brinquedos, brinquedosAnimal);
+    return this.temBrinquedosNaOrdem(animal.brinquedos, brinquedosPessoa);
   }
 
   temBrinquedosNaOrdem(brinquedosAnimal, brinquedosPessoa) {
