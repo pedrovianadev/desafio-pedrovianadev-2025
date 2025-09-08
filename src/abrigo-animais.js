@@ -12,6 +12,8 @@ class AbrigoAnimais {
       'Loco': { tipo: 'jabuti', brinquedos: ['SKATE', 'RATO'] }
     };
 
+    const brinquedosValidos = ['RATO', 'BOLA', 'LASER', 'CAIXA', 'NOVELO', 'SKATE'];
+
     try {
       // Validação e parsing dos parâmetros de entrada
       const brinquedos1 = this.validarEParsearBrinquedos(brinquedosPessoa1, brinquedosValidos);
@@ -92,6 +94,25 @@ class AbrigoAnimais {
     // ainda vou implementar o método pessoaPodeAdotar
     const pessoa1Pode = this.pessoaPodeAdotar();
     const pessoa2Pode = this.pessoaPodeAdotar();
+
+    // Regra se ambas pessoas podem adotar, ninguém fica com o animal :(
+    if (pessoa1Pode && pessoa2Pode) {
+      return 'abrigo';
+    }
+
+    if (pessoa1Pode) {
+      contadorPessoa1.count++;
+      animaisAdotados.push(nomeAnimal);
+      return 'pessoa 1';
+    }
+
+    if (pessoa2Pode) {
+      contadorPessoa2.count++;
+      animaisAdotados.push(nomeAnimal);
+      return 'pessoa 2';
+    }
+
+    return 'abrigo';
   }
 
   processarLoco(animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados){
@@ -125,10 +146,31 @@ class AbrigoAnimais {
     return 'abrigo';
   }
 
-  pessoaPodeAdotar(){}
+  pessoaPodeAdotar(animal, brinquedosPessoa, animaisJaAdotados){
+    // Regra para que uma pessoa não possa levar mais de três animais
+    if (animaisJaAdotados >= 3) {
+      return false;
+    }
 
-  temTodosBrinquedos(brinquedodsAnimal, brinquedosPessoa) {
-    return brinquedodsAnimal.every(brinquedo => brinquedosPessoa.includes(brinquedo));
+    // Regra o animal vai para a pessoa que mostrar todos os seus brinquedos favoritos na ordem
+    // Regra uma pessoa pode intercalar brinquedos que o animal queira ou não, desde que esteja na ordem desejada
+    return this.temBrinquedosNaOrdem(animal.brinquedos, brinquedosAnimal);
+  }
+
+  temBrinquedosNaOrdem(brinquedosAnimal, brinquedosPessoa) {
+    let indiceAnimal = 0;
+
+    for (const brinquedo of brinquedosPessoa) {
+      if (indiceAnimal < brinquedosAnimal.length && brinquedo === brinquedosAnimal[indiceAnimal]) {
+        indiceAnimal++;
+      }
+    }
+
+    return indiceAnimal === brinquedosAnimal.length;
+  }
+
+  temTodosBrinquedos(brinquedosAnimal, brinquedosPessoa) {
+    return brinquedosAnimal.every(brinquedo => brinquedosPessoa.includes(brinquedo));
   }
 }
 
