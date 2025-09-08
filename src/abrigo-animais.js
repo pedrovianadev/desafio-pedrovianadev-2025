@@ -83,7 +83,53 @@ class AbrigoAnimais {
     return resultado;
   }
 
-  determinarDestino(){}
+  determinarDestino(nomeAnimal, animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados){
+    // Regra para Loco(jabuti)
+    if (nomeAnimal === 'Loco'){
+      return this.processarLoco(animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados);
+    }
+
+    // ainda vou implementar o método pessoaPodeAdotar
+    const pessoa1Pode = this.pessoaPodeAdotar();
+    const pessoa2Pode = this.pessoaPodeAdotar();
+  }
+
+  processarLoco(animal, brinquedos1, brinquedos2, contadorPessoa1, contadorPessoa2, animaisAdotados){
+    // Loco não se importa com ordem dos brinquedos mas precisa de companhia
+    const temCompanhia = animaisAdotados.length > 0;
+
+    if(!temCompanhia){
+      return 'abrigo';
+    }
+
+    const pessoa1TemBrinquedos = this.temTodosBrinquedos(animal.brinquedos, brinquedos1);
+    const pessoa2TemBrinquedos = this.temTodosBrinquedos(animal.brinquedos, brinquedos2);
+
+    const pessoa1Pode = pessoa1TemBrinquedos && contadorPessoa1.count < 3;
+    const pessoa2Pode = pessoa2TemBrinquedos && contadorPessoa2.count < 3;
+
+    if (pessoa1Pode && pessoa2Pode){
+      return 'abrigo';
+    }
+
+    if (pessoa1Pode) {
+      contadorPessoa1.count++;
+      return 'pessoa 1';
+    }
+
+    if (pessoa2Pode) {
+      contadorPessoa2.count++;
+      return 'pessoa 2';
+    }
+
+    return 'abrigo';
+  }
+
+  pessoaPodeAdotar(){}
+
+  temTodosBrinquedos(brinquedodsAnimal, brinquedosPessoa) {
+    return brinquedodsAnimal.every(brinquedo => brinquedosPessoa.includes(brinquedo));
+  }
 }
 
 export { AbrigoAnimais as AbrigoAnimais };
